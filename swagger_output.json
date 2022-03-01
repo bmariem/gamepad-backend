@@ -1,0 +1,105 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "REST API",
+    "description": ""
+  },
+  "host": "localhost:4000",
+  "basePath": "",
+  "tags": [
+    {
+      "name": "",
+      "description": ""
+    }
+  ],
+  "schemes": [],
+  "securityDefinitions": {},
+  "paths": {
+    "/games": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "search",
+            "description": "Search a game by name",
+            "type": "string",
+            "required": false,
+            "in": "query"
+          },
+          {
+            "name": "page",
+            "description": "A page number within the paginated result set.",
+            "type": "int",
+            "required": false,
+            "in": "query"
+          },
+          {
+            "name": "platforms",
+            "description": "Filter by platforms, for example: 4,5",
+            "type": "string",
+            "required": false,
+            "in": "query"
+          },
+          {
+            "name": "genres",
+            "description": "Filter by genres, for example: 4,51 or action,indie.",
+            "type": "string",
+            "required": false,
+            "in": "query"
+          },
+          {
+            "name": "ordering",
+            "description": "Available fields: name, released, added, created, updated, rating, metacritic.",
+            "type": "string",
+            "required": false,
+            "in": "query"
+          },
+          {
+            "name": "page_size",
+            "description": "Number of results to return per page.",
+            "type": "int",
+            "required": false,
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/platforms": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/genres": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    }
+  }
+}
