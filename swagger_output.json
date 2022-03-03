@@ -122,6 +122,84 @@
           }
         }
       }
+    },
+    "/signup": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "email",
+            "description": "Insert User email",
+            "type": "string",
+            "required": true,
+            "in": "query"
+          },
+          {
+            "name": "username",
+            "description": "User name",
+            "type": "string",
+            "required": true,
+            "in": "query"
+          },
+          {
+            "name": "Password",
+            "description": "Password",
+            "type": "string",
+            "required": true,
+            "in": "query"
+          },
+          {
+            "name": "Avatar",
+            "description": "User Avatar",
+            "type": "string",
+            "required": false,
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "409": {
+            "description": "Conflict"
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "email",
+            "description": "Insert User email",
+            "type": "string",
+            "required": true,
+            "in": "query"
+          },
+          {
+            "name": "Password",
+            "description": "Password",
+            "type": "string",
+            "required": true,
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
     }
   }
 }

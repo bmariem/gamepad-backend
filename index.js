@@ -18,6 +18,15 @@ app.use(formidable());
 // Allow requests between my AMI and other external sites
 app.use(cors());
 
+// Setup Cloudinary
+const cloudinary = require("cloudinary").v2;
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.API_CLOUDINARY_KEY,
+  api_secret: process.env.API_SECRET,
+  secure: true,
+});
+
 // create a DB
 mongoose.connect(process.env.MONGODB_URI);
 
@@ -33,8 +42,11 @@ app.use(platformsRoutes);
 const typesRoutes = require("./routes/types");
 app.use(typesRoutes);
 
+const userRoutes = require("./routes/user");
+app.use(userRoutes);
+
 app.all("*", (req, res) => {
-  res.status(404).json("Page not found !");
+  res.status(404).json("Page not found 😔");
 });
 
 app.listen(process.env.PORT, () => {

@@ -9,7 +9,7 @@ const isAuthenticated = async (req, res, next) => {
 
     if (!user) {
       // User does not exists in DB <=> error 401 <=> Unauthorized
-      return res.status(401).json({ error: "Unauthorized" });
+      return res.status(401).json({ error: "Unauthorized ✋" });
     } else {
       // Creation of the User key in req
       req.user = user;
@@ -17,7 +17,7 @@ const isAuthenticated = async (req, res, next) => {
     }
   } else {
     // error 401 <=> Unauthorized
-    return res.status(401).json({ error: "Unauthorized" });
+    return res.status(401).json({ error: "Unauthorized ✋" });
   }
 };
 

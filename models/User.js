@@ -12,6 +12,7 @@ const User = mongoose.model("User", {
   favorites: {
     favoriteGames: [],
   },
+  avatar: String,
   token: String,
   hash: String,
   salt: String,
