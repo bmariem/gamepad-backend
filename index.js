@@ -27,6 +27,12 @@ app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 const gamesRoutes = require("./routes/games");
 app.use(gamesRoutes);
 
+const platformsRoutes = require("./routes/platforms");
+app.use(platformsRoutes);
+
+const typesRoutes = require("./routes/types");
+app.use(typesRoutes);
+
 app.all("*", (req, res) => {
   res.status(404).json("Page not found !");
 });

@@ -42,26 +42,22 @@ router.get("/games", async (req, res) => {
   }
 });
 
-// Get Platforms
-router.get("/platforms", async (req, res) => {
+// Get game/:id
+router.get("/game/:id", async (req, res) => {
   try {
-    let url = `/platforms?key=${process.env.API_KEY}`;
+    // #swagger.parameters['id'] = { description: 'An ID or a slug identifying this Game.', type: 'string' , required: true }
+    let url = `/games/${req.params.id}?key=${process.env.API_KEY}`;
 
-    const response = await axios.get(url);
-    res.status(200).json(response.data);
-  } catch (error) {
-    console.log(error);
-    res.status(400).json({ message: error.message });
-  }
-});
+    const gameResponse = await axios.get(url); // data game
 
-// Get types
-router.get("/genres", async (req, res) => {
-  try {
-    let url = `/genres?key=${process.env.API_KEY}`;
+    let relatedGameUrl = `/games/${req.params.id}/game-series?key=${process.env.API_KEY}`;
 
-    const response = await axios.get(url);
-    res.status(200).json(response.data);
+    const relatedGameResponse = await axios.get(relatedGameUrl); //list of games that are part of the same series.
+
+    res.status(200).json({
+      game: gameResponse.data,
+      relatedGames: relatedGameResponse.data.results,
+    });
   } catch (error) {
     console.log(error);
     res.status(400).json({ message: error.message });
