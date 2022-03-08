@@ -128,14 +128,14 @@
         "description": "",
         "parameters": [
           {
-            "name": "email",
+            "name": "Email",
             "description": "Insert User email",
             "type": "string",
             "required": true,
             "in": "query"
           },
           {
-            "name": "username",
+            "name": "Username",
             "description": "User name",
             "type": "string",
             "required": true,
@@ -174,7 +174,7 @@
         "description": "",
         "parameters": [
           {
-            "name": "email",
+            "name": "Email",
             "description": "Insert User email",
             "type": "string",
             "required": true,
@@ -183,6 +183,107 @@
           {
             "name": "Password",
             "description": "Password",
+            "type": "string",
+            "required": true,
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/user/collections": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "User id",
+            "description": "Insert user ID.",
+            "type": "string",
+            "required": true,
+            "in": "query"
+          },
+          {
+            "name": "Game id",
+            "description": "Insert game ID.",
+            "type": "string",
+            "required": true,
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/user/collections/{id}": {
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "User id",
+            "description": "Insert user ID.",
+            "type": "string",
+            "required": true,
+            "in": "query"
+          },
+          {
+            "name": "gameId",
+            "description": "Insert the ID of the game.",
             "type": "string",
             "required": true,
             "in": "query"
