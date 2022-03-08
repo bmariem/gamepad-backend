@@ -10,7 +10,7 @@ You can also [click here](https://github.com/bmariem/gamepad) to go to the front
 ✔️ A route of **game**, taking the game id as a parameter & listing all game details;<br>
 ✔️ **Authentication system** by using middleware & Mongoose model;<br>
 ✔️ Save **favorites games** in mongodb DataBase for a logged user ;<br>
-✔️ A route of **Collection** displaying the list of favorite games : it is possible to add or remove them from this list;<br>
+✔️ A route of **favorites** displaying the list of favorite games : it is possible to add or remove them from this list;<br>
 
 ## 👩‍💻 Technologies and tools used:
 
