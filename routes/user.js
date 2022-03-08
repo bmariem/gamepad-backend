@@ -157,17 +157,17 @@ const addFavoriteGames = (user, game) => {
 
   // game does not exists in favorites <=> add it
   if (!exist) {
-    user.favorites.favoriteGames.push(game);
+    return user.favorites.favoriteGames.push(game);
   }
 };
 
 // Add User's fav to collection
 router.post("/user/collections", isAuthenticated, async (req, res) => {
   try {
-    // #swagger.parameters['User id'] = { description: 'Insert user ID.', type: 'string' , required: true }
+    // #swagger.parameters['UserId'] = { description: 'Insert user ID.', type: 'string' , required: true }
     const user = await User.findById(req.user._id); // Checking if user ID is already in my bd
 
-    // #swagger.parameters['Game id'] = { description: 'Insert game ID.', type: 'string' , required: true }
+    // #swagger.parameters['GameId'] = { description: 'Insert game ID.', type: 'string' , required: true }
     const response = await axios.get(
       `/games/${req.fields.id}?key=${process.env.API_KEY}`
     );
@@ -199,6 +199,7 @@ const deleteFavoriteGames = (user, gameId) => {
   // game exists in favorites <=> delete it
   if (existingFav.length > 0) {
     const index = user.favorites.favoriteGames.indexOf(existingFav[0]);
+
     if (index > -1) {
       user.favorites.favoriteGames.splice(index, 1); // 2nd parameter means remove one item only
     }
@@ -206,17 +207,20 @@ const deleteFavoriteGames = (user, gameId) => {
 };
 
 // Delete User's fav from collection
-router.delete("/user/collections/:id", isAuthenticated, async (req, res) => {
+router.post("/user/deleteCollections", isAuthenticated, async (req, res) => {
   try {
-    // #swagger.parameters['User id'] = { description: 'Insert user ID.', type: 'string' , required: true }
+    // #swagger.parameters['UserId'] = { description: 'Insert user ID.', type: 'string' , required: true }
     const user = await User.findById(req.user._id); // Checking if user ID is already in my bd
 
     // #swagger.parameters['gameId'] = { description: 'Insert the ID of the game.', type: 'string' , required: true }
-    const gameId = req.params.id;
+    const gameId = req.fields.id;
 
     deleteFavoriteGames(user, gameId);
+
+    user.markModified("favorites.favoriteGames");
+
     await user.save();
-    res.status(200).json({ message: "Game deleted from favorite collection" });
+    res.status(200).json(user);
   } catch (error) {
     res.status(400).json({
       message: error.message,

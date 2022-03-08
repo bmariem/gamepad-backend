@@ -232,14 +232,14 @@
             "type": "string"
           },
           {
-            "name": "User id",
+            "name": "UserId",
             "description": "Insert user ID.",
             "type": "string",
             "required": true,
             "in": "query"
           },
           {
-            "name": "Game id",
+            "name": "GameId",
             "description": "Insert game ID.",
             "type": "string",
             "required": true,
@@ -275,7 +275,7 @@
             "type": "string"
           },
           {
-            "name": "User id",
+            "name": "UserId",
             "description": "Insert user ID.",
             "type": "string",
             "required": true,
