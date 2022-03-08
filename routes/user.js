@@ -110,6 +110,7 @@ router.post("/login", async (req, res) => {
           id: user.id,
           token: user.token,
           username: user.username,
+          avatar: user.avatar,
         });
       } else {
         // Unauthorized <=> the password entered is incorrect
@@ -124,17 +125,35 @@ router.post("/login", async (req, res) => {
   }
 });
 
+async function asyncForEach(array, callback) {
+  for (let index = 0; index < array.length; index++) {
+    await callback(array[index], index, array);
+  }
+}
+
 // User's collection
-router.get("/user/collections", isAuthenticated, async (req, res) => {
+router.get("/user/:idUser/favorites", isAuthenticated, async (req, res) => {
+  const favorites = [];
+
+  await asyncForEach(req.user.favorites, async (gameId) => {
+    const response = await axios.get(
+      `/games/${gameId}?key=${process.env.API_KEY}`
+    );
+
+    favorites.push({
+      id: response.data.id,
+      name: response.data.name,
+      background_image: response.data.background_image,
+    });
+  });
+
   try {
     res.status(200).json({
       id: req.user._id,
       email: req.user.email,
       username: req.user.username,
       avatar: req.user.avatar,
-      favorites: {
-        favoriteGames: req.user.favorites.favoriteGames,
-      },
+      favorites: favorites,
     });
   } catch (error) {
     res.status(400).json({
@@ -145,24 +164,20 @@ router.get("/user/collections", isAuthenticated, async (req, res) => {
 
 const addFavoriteGames = (user, game) => {
   if (user.favorites === undefined) {
-    user.favorites = {
-      favoriteGames: [],
-    };
+    user.favorites = [];
   }
 
   // check if game already exists in favorites
-  let exist = user.favorites.favoriteGames.find((element) => {
-    return element.id === game.id;
-  });
+  const index = user.favorites.indexOf(Number(game.id));
 
   // game does not exists in favorites <=> add it
-  if (!exist) {
-    return user.favorites.favoriteGames.push(game);
+  if (index < 0) {
+    return user.favorites.push(game.id);
   }
 };
 
 // Add User's fav to collection
-router.post("/user/collections", isAuthenticated, async (req, res) => {
+router.post("/user/:idUser/favorites", isAuthenticated, async (req, res) => {
   try {
     // #swagger.parameters['UserId'] = { description: 'Insert user ID.', type: 'string' , required: true }
     const user = await User.findById(req.user._id); // Checking if user ID is already in my bd
@@ -186,46 +201,40 @@ router.post("/user/collections", isAuthenticated, async (req, res) => {
 
 const deleteFavoriteGames = (user, gameId) => {
   if (user.favorites === undefined) {
-    user.favorites = {
-      favoriteGames: [],
-    };
+    user.favorites = [];
   }
 
-  // check if game already exists in favorites
-  let existingFav = user.favorites.favoriteGames.filter((element) => {
-    return element.id === Number(gameId);
-  });
+  const index = user.favorites.indexOf(Number(gameId));
 
-  // game exists in favorites <=> delete it
-  if (existingFav.length > 0) {
-    const index = user.favorites.favoriteGames.indexOf(existingFav[0]);
-
-    if (index > -1) {
-      user.favorites.favoriteGames.splice(index, 1); // 2nd parameter means remove one item only
-    }
+  if (index > -1) {
+    user.favorites.splice(index, 1); // 2nd parameter means remove one item only
   }
 };
 
 // Delete User's fav from collection
-router.post("/user/deleteCollections", isAuthenticated, async (req, res) => {
-  try {
-    // #swagger.parameters['UserId'] = { description: 'Insert user ID.', type: 'string' , required: true }
-    const user = await User.findById(req.user._id); // Checking if user ID is already in my bd
+router.delete(
+  "/user/:idUser/favorite/:id",
+  isAuthenticated,
+  async (req, res) => {
+    try {
+      // #swagger.parameters['UserId'] = { description: 'Insert user ID.', type: 'string' , required: true }
+      const user = await User.findById(req.user._id); // Checking if user ID is already in my bd
 
-    // #swagger.parameters['gameId'] = { description: 'Insert the ID of the game.', type: 'string' , required: true }
-    const gameId = req.fields.id;
+      // #swagger.parameters['gameId'] = { description: 'Insert the ID of the game.', type: 'string' , required: true }
+      const gameId = req.params.id;
 
-    deleteFavoriteGames(user, gameId);
+      deleteFavoriteGames(user, gameId);
 
-    user.markModified("favorites.favoriteGames");
+      user.markModified("favorites");
 
-    await user.save();
-    res.status(200).json(user);
-  } catch (error) {
-    res.status(400).json({
-      message: error.message,
-    });
+      await user.save();
+      res.status(200).json(user);
+    } catch (error) {
+      res.status(400).json({
+        message: error.message,
+      });
+    }
   }
-});
+);
 
 module.exports = router;

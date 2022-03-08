@@ -201,10 +201,16 @@
         }
       }
     },
-    "/user/collections": {
+    "/user/{idUser}/favorites": {
       "get": {
         "description": "",
         "parameters": [
+          {
+            "name": "idUser",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
           {
             "name": "authorization",
             "in": "header",
@@ -226,6 +232,12 @@
       "post": {
         "description": "",
         "parameters": [
+          {
+            "name": "idUser",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
           {
             "name": "authorization",
             "in": "header",
@@ -259,10 +271,16 @@
         }
       }
     },
-    "/user/collections/{id}": {
+    "/user/{idUser}/favorite/{id}": {
       "delete": {
         "description": "",
         "parameters": [
+          {
+            "name": "idUser",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
           {
             "name": "id",
             "in": "path",

@@ -9,9 +9,7 @@ const User = mongoose.model("User", {
     required: true,
     type: String,
   },
-  favorites: {
-    favoriteGames: [],
-  },
+  favorites: [],
   avatar: String,
   token: String,
   hash: String,
