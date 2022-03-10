@@ -19,9 +19,12 @@ You can also [click here](https://github.com/bmariem/gamepad) to go to the front
 - Javascript ES6+
 - Nodejs
 - npm
+- axios
 - Express | Axios | Cors
 - Nodemon
 - swagger (open API)
+- cloudinary
+- crypto-js
 
 ## ▶️ How to run the project?
 
