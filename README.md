@@ -11,6 +11,8 @@ You can also [click here](https://github.com/bmariem/gamepad) to go to the front
 ✔️ **Authentication system** by using middleware & Mongoose model;<br>
 ✔️ Save **favorites games** in mongodb DataBase for a logged user ;<br>
 ✔️ A route of **favorites** displaying the list of favorite games : it is possible to add or remove them from this list;<br>
+✔️ A route of **reviews** to manage user reviews;<br>
+✔️ A route of **votes** to manage user votes : you can like or dislike the reviews;<br>
 
 ## 👩‍💻 Technologies and tools used:
 
@@ -19,6 +21,7 @@ You can also [click here](https://github.com/bmariem/gamepad) to go to the front
 - npm
 - Express | Axios | Cors
 - Nodemon
+- swagger (open API)
 
 ## ▶️ How to run the project?
 
