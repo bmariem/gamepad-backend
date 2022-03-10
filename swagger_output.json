@@ -16,115 +16,12 @@
   "schemes": [],
   "securityDefinitions": {},
   "paths": {
-    "/games": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "search",
-            "description": "Search a game by name",
-            "type": "string",
-            "required": false,
-            "in": "query"
-          },
-          {
-            "name": "page",
-            "description": "A page number within the paginated result set.",
-            "type": "int",
-            "required": false,
-            "in": "query"
-          },
-          {
-            "name": "platforms",
-            "description": "Filter by platforms, for example: 4,5",
-            "type": "string",
-            "required": false,
-            "in": "query"
-          },
-          {
-            "name": "genres",
-            "description": "Filter by genres, for example: 4,51 or action,indie.",
-            "type": "string",
-            "required": false,
-            "in": "query"
-          },
-          {
-            "name": "ordering",
-            "description": "Available fields: name, released, added, created, updated, rating, metacritic.",
-            "type": "string",
-            "required": false,
-            "in": "query"
-          },
-          {
-            "name": "page_size",
-            "description": "Number of results to return per page.",
-            "type": "int",
-            "required": false,
-            "in": "query"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          }
-        }
-      }
-    },
-    "/game/{id}": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "description": "An ID or a slug identifying this Game."
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          }
-        }
-      }
-    },
-    "/platforms": {
-      "get": {
-        "description": "",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          }
-        }
-      }
-    },
-    "/genres": {
-      "get": {
-        "description": "",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          }
-        }
-      }
-    },
     "/signup": {
       "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Creating a new user account",
         "description": "",
         "parameters": [
           {
@@ -171,7 +68,11 @@
     },
     "/login": {
       "post": {
-        "description": "",
+        "tags": [
+          "User"
+        ],
+        "summary": "User authentication",
+        "description": "Users input their credentials on the website",
         "parameters": [
           {
             "name": "Email",
@@ -203,6 +104,10 @@
     },
     "/user/{idUser}/favorites": {
       "get": {
+        "tags": [
+          "Favorites"
+        ],
+        "summary": "Get a list of user's favorites games.",
         "description": "",
         "parameters": [
           {
@@ -230,6 +135,10 @@
         }
       },
       "post": {
+        "tags": [
+          "Favorites"
+        ],
+        "summary": "Add a favorite game for the specified user.",
         "description": "",
         "parameters": [
           {
@@ -273,6 +182,10 @@
     },
     "/user/{idUser}/favorite/{id}": {
       "delete": {
+        "tags": [
+          "Favorites"
+        ],
+        "summary": "Delete a favorite game for the specified user.",
         "description": "",
         "parameters": [
           {
@@ -303,6 +216,277 @@
             "name": "gameId",
             "description": "Insert the ID of the game.",
             "type": "string",
+            "required": true,
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/games": {
+      "get": {
+        "tags": [
+          "Game"
+        ],
+        "summary": "Get a list of games.",
+        "description": "You can search for a game in the list by name, genre or platform. A paging system: a page number within the paginated result set",
+        "parameters": [
+          {
+            "name": "search",
+            "description": "Search a game by name",
+            "type": "string",
+            "required": false,
+            "in": "query"
+          },
+          {
+            "name": "page",
+            "description": "A page number within the paginated result set.",
+            "type": "int",
+            "required": false,
+            "in": "query"
+          },
+          {
+            "name": "platforms",
+            "description": "Filter by platforms, for example: 4,5",
+            "type": "string",
+            "required": false,
+            "in": "query"
+          },
+          {
+            "name": "genres",
+            "description": "Filter by genres, for example: 4,51 or action,indie.",
+            "type": "string",
+            "required": false,
+            "in": "query"
+          },
+          {
+            "name": "ordering",
+            "description": "Search with: name, released, added, created, updated, rating, metacritic.",
+            "type": "string",
+            "required": false,
+            "in": "query"
+          },
+          {
+            "name": "page_size",
+            "description": "Number of results to return per page.",
+            "type": "int",
+            "required": false,
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/game/{id}": {
+      "get": {
+        "tags": [
+          "Game"
+        ],
+        "summary": "Get details of the game.",
+        "description": "Displaying information relating to a game and games from the same series.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "An ID or a slug identifying this Game."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/platforms": {
+      "get": {
+        "tags": [
+          "Game"
+        ],
+        "summary": "Get a list of game platforms",
+        "description": "Get a list of video game platforms",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/genres": {
+      "get": {
+        "tags": [
+          "Game"
+        ],
+        "summary": "Get a list of game genres.",
+        "description": "Get a list of video game genres.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/game/{id}/review": {
+      "post": {
+        "tags": [
+          "Review"
+        ],
+        "summary": "Publish a new game review",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "gameId",
+            "description": "Insert the ID of the game.",
+            "type": "string",
+            "required": true,
+            "in": "query"
+          },
+          {
+            "name": "Title",
+            "description": "Insert here the title of the review.",
+            "type": "string",
+            "required": true,
+            "in": "query"
+          },
+          {
+            "name": "Text",
+            "description": "Insert here the text of the review.",
+            "type": "string",
+            "required": true,
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/game/{id}/reviews": {
+      "get": {
+        "tags": [
+          "Review"
+        ],
+        "summary": "Get game reviews",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "gameId",
+            "description": "Insert the ID of the game.",
+            "type": "string",
+            "required": true,
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/game/{id}/review/{review_id}/vote": {
+      "post": {
+        "tags": [
+          "Review"
+        ],
+        "summary": "Publish a new vote for a game review",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "review_id",
+            "in": "path",
+            "required": true,
+            "type": "Number",
+            "description": "Insert here the id of the review."
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "gameId",
+            "description": "Insert the ID of the game.",
+            "type": "Number",
+            "required": true,
+            "in": "query"
+          },
+          {
+            "name": "value",
+            "description": "Insert here the vote for the review.",
+            "type": "Number",
             "required": true,
             "in": "query"
           }

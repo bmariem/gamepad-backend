@@ -5,6 +5,10 @@ const axios = require("../config/api-axios");
 // Get games
 router.get("/games", async (req, res) => {
   try {
+    // #swagger.tags = ['Game']
+    // #swagger.summary = 'Get a list of games.'
+    // #swagger.description = 'You can search for a game in the list by name, genre or platform. A paging system: a page number within the paginated result set'
+
     let url = `/games?key=${process.env.API_KEY}`;
 
     if (req.query.search) {
@@ -29,7 +33,7 @@ router.get("/games", async (req, res) => {
     }
 
     if (req.query.ordering) {
-      //  #swagger.parameters['ordering'] = { description: 'Available fields: name, released, added, created, updated, rating, metacritic.', type: 'string' , required: false }
+      //  #swagger.parameters['ordering'] = { description: 'Search with: name, released, added, created, updated, rating, metacritic.', type: 'string' , required: false }
       url = `${url}&ordering=${req.query.ordering}`;
     }
 
@@ -45,6 +49,10 @@ router.get("/games", async (req, res) => {
 // Get game/:id
 router.get("/game/:id", async (req, res) => {
   try {
+    // #swagger.tags = ['Game']
+    // #swagger.summary = 'Get details of the game.'
+    // #swagger.description = 'Displaying information relating to a game and games from the same series.'
+
     // #swagger.parameters['id'] = { description: 'An ID or a slug identifying this Game.', type: 'string' , required: true }
     let url = `/games/${req.params.id}?key=${process.env.API_KEY}`;
 
@@ -55,7 +63,18 @@ router.get("/game/:id", async (req, res) => {
     const relatedGameResponse = await axios.get(relatedGameUrl); //list of games that are part of the same series.
 
     res.status(200).json({
-      game: gameResponse.data,
+      game: {
+        id: gameResponse.data.id,
+        name: gameResponse.data.name,
+        genres: gameResponse.data.genres,
+        platforms: gameResponse.data.platforms,
+        background_image: gameResponse.data.background_image,
+        description_raw: gameResponse.data.description_raw,
+        rating: gameResponse.data.rating,
+        developers: gameResponse.data.developers,
+        publishers: gameResponse.data.publishers,
+        released: gameResponse.data.released,
+      },
       relatedGames: relatedGameResponse.data.results,
     });
   } catch (error) {

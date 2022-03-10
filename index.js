@@ -30,20 +30,27 @@ cloudinary.config({
 // create a DB
 mongoose.connect(process.env.MONGODB_URI);
 
-// import routes
+// swagger documentation
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerFile));
+
+// import routes
+const userRoutes = require("./routes/user");
+app.use(userRoutes);
+
+const userFavoritesRoutes = require("./routes/user_favorites");
+app.use(userFavoritesRoutes);
 
 const gamesRoutes = require("./routes/games");
 app.use(gamesRoutes);
 
-const platformsRoutes = require("./routes/platforms");
+const platformsRoutes = require("./routes/game_platforms");
 app.use(platformsRoutes);
 
-const typesRoutes = require("./routes/types");
+const typesRoutes = require("./routes/game_types");
 app.use(typesRoutes);
 
-const userRoutes = require("./routes/user");
-app.use(userRoutes);
+const reviewRoutes = require("./routes/game_review");
+app.use(reviewRoutes);
 
 app.all("*", (req, res) => {
   res.status(404).json("Page not found 😔");
